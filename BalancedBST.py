@@ -179,7 +179,7 @@ class Node:
         del candidate
 
 
-class BalanacedBST:
+class BalancedBST:
     def __init__(self,firstkey = None):
         if firstkey != None:
             ournode = Node(firstkey)
