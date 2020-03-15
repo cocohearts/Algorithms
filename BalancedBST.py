@@ -1,6 +1,3 @@
-import time
-import random
-
 class Node:
 
     def __init__(self,key,parent = None,height = 0):
@@ -178,8 +175,24 @@ class Node:
         #either way, candidate is a left child
         node.key = candidate.key
         candidate.parent.left = None
+        recalculate_heights(candidate.parent)
         del candidate
 
+
 class BalanacedBST:
-    def __init__(self):
-        self.members = set([])
+    def __init__(self,firstkey = None):
+        if firstkey != None:
+            ournode = Node(firstkey)
+            self.root = ournode
+        else:
+            self.root = None
+
+    def insert(key):
+        if self.root == None:
+            self = Node(key)
+        else:
+            Node.insert(self.root,key)
+            root = rootify(root)
+
+    def delete(node):
+        Node.delete(node)
