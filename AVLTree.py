@@ -15,7 +15,7 @@ class AVL_Tree(object):
     Recursive function to insert key in  subtree rooted with node and returns 
     new root of subtree. 
     """
-    def insert(self, root, key): 
+    def insert(self, root, key):
         """
         Will return new root and do all recursive balancing/insertion.
         """
@@ -24,15 +24,15 @@ class AVL_Tree(object):
             return TreeNode(key)
         elif key < root.val:
             root.left = self.insert(root.left, key)
-        else: 
+        else:
             root.right = self.insert(root.right, key)
-  
-        # Step 2 - Update the height of the  
-        # ancestor node 
-        root.height = 1 + max(AVL_Tree.getHeight(root.left), 
-                           AVL_Tree.getHeight(root.right)) 
-  
-        # Step 3 - Get the balance factor 
+
+        # Step 2 - Update the height of the
+        # ancestor node
+        root.height = 1 + max(AVL_Tree.getHeight(root.left),
+                           AVL_Tree.getHeight(root.right))
+
+        # Step 3 - Get the balance factor
         balance = self.getBalance(root)
   
         # Step 4 - If the node is unbalanced,
