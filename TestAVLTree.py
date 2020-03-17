@@ -7,6 +7,9 @@ import AVLTree
 class TestAVLTree(unittest.TestCase):
 
     def recursive_iteration(self, root, validator):
+        """
+        Executes self.validator() on all nodes in tree rooted at root
+        """
         if(root == None):
             return
         validator(root)
@@ -14,34 +17,84 @@ class TestAVLTree(unittest.TestCase):
         self.recursive_iteration(root.right, validator)
         
     def init_avl_tree(self):
+        """
+        Creates an AVL tree with indices in range(constant), and insertion order is random
+        """
         tree = AVLTree.AVL_Tree()
-#       my_list = np.random.permutation(range(10))
-        my_list = list(range(1000))
+        length = 10000
+        my_list = list(range(length))
         random.shuffle(my_list)
-#        print(my_list)
         root = None
         for key in my_list:
             root = tree.insert(root,key)
+        for key in my_list[:length/2]:
+            tree.delete(root,key)
         return root
 
-    def compare_height_diff(self, node):
+    def print_tree(self, root):
+        print(root.val, root.left.val if root.left else None, root.right.val if root.right else None)
+        if root.left:
+            self.print_tree(root.left)
+        if root.right:
+            self.print_tree(root.right)
+
+    def height_diff_leq_one(self, node):
         self.assertTrue(abs(AVLTree.AVL_Tree.getHeight(node.left) - AVLTree.AVL_Tree.getHeight(node.right)) <= 1)
 
     def parent_height_sum(self, node):
         self.assertEqual(max(AVLTree.AVL_Tree.getHeight(node.left),AVLTree.AVL_Tree.getHeight(node.right)) + 1, node.height)
-        
-    def print_node(self, node):
-        print(node.val, node.left.val if node.left else None, node.right.val if node.right else None)
     
+    def left_keys_less_key(self,node):
+        if not node.left:
+            return
+        self.assertTrue(node.val > node.left.val)
+        self.assertTrue(self.largest_key_left_subtree(node) < node.val)
+
+    def largest_key_left_subtree(self,node):
+        if node.right == None:
+            return float("-inf")
+        counter_node = node.left
+        while counter_node.right:
+            counter_node = counter_node.right
+        return counter_node.val
+    
+    def right_keys_greater_key(self,node):
+        if not node.right:
+            return
+        self.assertTrue(node.val < node.right.val)
+        self.assertTrue(self.smallest_key_right_subtree(node) > node.val)
+    
+    def smallest_key_right_subtree(self,node):
+        if node.right == None:
+            return float("inf")
+        counter_node = node.right
+        while counter_node.left:
+            counter_node = counter_node.left
+        return counter_node.val
+    
+    def height_geq_0(self,node):
+        return node.val >= 0
+
     def test_height_diff_leq_one(self):
         root = self.init_avl_tree()
 #        self.recursive_iteration(root, self.print_node)
-        self.recursive_iteration(root, self.compare_height_diff)
+        self.recursive_iteration(root, self.height_diff_leq_one)
     
     def test_parent_height_sum(self):
         root = self.init_avl_tree()
-#        self.recursive_iteration(root, self.print_node)
         self.recursive_iteration(root, self.parent_height_sum)
+    
+    def test_left_keys_less_key(self):
+        root = self.init_avl_tree()
+        self.recursive_iteration(root, self.left_keys_less_key)
+    
+    def test_right_keys_greater_key(self):
+        root = self.init_avl_tree()
+        self.recursive_iteration(root,self.right_keys_greater_key)
+
+    def test_height_geq_0(self):
+        root = self.init_avl_tree()
+        self.recursive_iteration(root,self.height_geq_0)
 
 if __name__ == '__main__':
     unittest.main()
