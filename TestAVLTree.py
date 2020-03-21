@@ -2,6 +2,7 @@ import unittest
 #import numpy as np
 import time
 import random
+
 import AVLTree
 
 class TestAVLTree(unittest.TestCase):
@@ -21,14 +22,14 @@ class TestAVLTree(unittest.TestCase):
         Creates an AVL tree with indices in range(constant), and insertion order is random
         """
         tree = AVLTree.AVL_Tree()
-        length = 10000
+        length = 1000
         my_list = list(range(length))
         random.shuffle(my_list)
         root = None
         for key in my_list:
             root = tree.insert(root,key)
-        for key in my_list[:length/2]:
-            tree.delete(root,key)
+        for key in my_list[0:30]:
+            root = tree.delete(root,key)
         return root
 
     def print_tree(self, root):
