@@ -1,5 +1,7 @@
 import AVLTree
 import random
+import pretty_print
+
 
 def value(node):
     if node:
@@ -7,10 +9,7 @@ def value(node):
     return None
 
 def print_tree(root):
-    if root:
-        print((root.val,value(root.left),value(root.right)))
-        print_tree(root.left)
-        print_tree(root.right)
+    pretty_print
 
 my_list = range(10)
 random.shuffle(my_list)
